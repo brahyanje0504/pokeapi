@@ -1,7 +1,14 @@
 package main
 
+import (
+	"github.com/gofiber/fiber/v2"
+	"poo/handler"
+	"poo/router"
+)
+
 func main() {
-
-	//hola como estas soy poke api
-
+	app := fiber.New()         //
+	h := handler.NewHandlers() //
+	s := router.NewRouter(app, h)
+	s.Start()
 }
