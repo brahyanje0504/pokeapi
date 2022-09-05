@@ -8,6 +8,8 @@ import (
 
 type HandlersExecuter interface {
 	Pokemones(c *fiber.Ctx) error
+	PokemonesBajos(c *fiber.Ctx) error
+	PokemonesAltos(c *fiber.Ctx) error
 }
 
 type handlers struct {
@@ -28,4 +30,22 @@ func (h *handlers) Pokemones(c *fiber.Ctx) error {
 
 	return c.JSON(pokemones)
 
+}
+
+func (h *handlers) PokemonesBajos(c *fiber.Ctx) error {
+	pokemones, err := h.usecases.TraerPokemonesBajos()
+	if err != nil {
+		return c.SendString(fmt.Sprintf("error %v", err.Error()))
+	}
+
+	return c.JSON(pokemones)
+}
+
+func (h *handlers) PokemonesAltos(c *fiber.Ctx) error {
+	pokemones, err := h.usecases.TraerPokemonesAltos()
+	if err != nil {
+		return c.SendString(fmt.Sprintf("error %v", err.Error()))
+	}
+
+	return c.JSON(pokemones)
 }

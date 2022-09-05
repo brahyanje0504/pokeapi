@@ -20,6 +20,8 @@ func NewRouter(fiberA *fiber.App, handlerA handler.HandlersExecuter) fiberRouter
 func (f *fiberRouter) Start() {
 
 	f.fiber.Post("/Pokemones", f.handlers.Pokemones)
+	f.fiber.Post("/Bajos", f.handlers.PokemonesBajos)
+	f.fiber.Post("/Altos", f.handlers.PokemonesAltos)
 
 	f.fiber.Listen(":3000")
 
