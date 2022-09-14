@@ -6,22 +6,26 @@ import (
 )
 
 type fiberRouter struct {
-	fiber    *fiber.App
-	handlers handler.HandlersExecuter
+	fiber         *fiber.App
+	handlersTraer handler.HandlersTraerPokemonesExecuter
+	handlerBajos  handler.PokemonesBajosHandlerExecutor
+	handlerAltos  handler.PokemonesAltosExecuter
 }
 
-func NewRouter(fiberA *fiber.App, handlerA handler.HandlersExecuter) fiberRouter {
+func NewRouter(fiberA *fiber.App, handlersTraer handler.HandlersTraerPokemonesExecuter, handlerBajos handler.PokemonesBajosHandlerExecutor, handlerAltos handler.PokemonesAltosExecuter) fiberRouter {
 	return fiberRouter{
-		fiber:    fiberA,
-		handlers: handlerA,
+		fiber:         fiberA,
+		handlersTraer: handlersTraer,
+		handlerBajos:  handlerBajos,
+		handlerAltos:  handlerAltos,
 	}
 }
 
 func (f *fiberRouter) Start() {
 
-	f.fiber.Post("/Pokemones", f.handlers.Pokemones)
-	f.fiber.Post("/Bajos", f.handlers.PokemonesBajos)
-	f.fiber.Post("/Altos", f.handlers.PokemonesAltos)
+	f.fiber.Post("/Pokemones", f.handlersTraer.Pokemones)
+	f.fiber.Post("/Bajos", f.handlerBajos.PokemonesBajos)
+	f.fiber.Post("/Altos", f.handlerAltos.PokemonesAltos)
 
 	f.fiber.Listen(":3000")
 

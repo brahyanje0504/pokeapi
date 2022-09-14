@@ -6,7 +6,18 @@ import (
 	"net/http"
 )
 
-func (d *driven) DrivenTraerPoemones() (Pokemones, error) {
+type DrivenTraerPokemones struct {
+}
+
+type DrivenTraerPokemonesExecuter interface {
+	DrivenTraerPokemones() (Pokemones, error)
+}
+
+func NewDrivenTraerPokemones() DrivenTraerPokemonesExecuter {
+	return &DrivenTraerPokemones{}
+}
+
+func (d *DrivenTraerPokemones) DrivenTraerPokemones() (Pokemones, error) {
 	url := "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
 	resp, err := http.Get(url)
 	if err != nil {

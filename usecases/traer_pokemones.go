@@ -5,8 +5,22 @@ import (
 	"poo/driven"
 )
 
+type useCasesTraerPokemones struct {
+	driven driven.DrivenTraerPokemonesExecuter
+}
+
+type UseCasesTraerPokemonesExecuter interface {
+	TraerPokemones() (driven.Pokemones, error)
+}
+
+func NewUseCasesTraerPokemones(driven driven.DrivenTraerPokemonesExecuter) UseCasesTraerPokemonesExecuter {
+	return &useCasesTraerPokemones{
+		driven: driven,
+	}
+}
+
 func (u *useCasesTraerPokemones) TraerPokemones() (driven.Pokemones, error) {
-	pokemones, err := u.driven.DrivenTraerPoemones()
+	pokemones, err := u.driven.DrivenTraerPokemones()
 	if err != nil {
 		return driven.Pokemones{}, err
 	}

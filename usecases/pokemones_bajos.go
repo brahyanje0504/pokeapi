@@ -2,11 +2,25 @@ package usecases
 
 import "poo/driven"
 
-func (u *useCasesTraerPokemones) TraerPokemonesBajos() ([]driven.Pokemon, error) {
+type PokemonesBajos struct {
+	pokemonesBajos driven.DrivenTraerPokemonesBajosExecuter
+}
+
+type PokemonesBajosExecuter interface {
+	TraerPokemonesBajos() ([]driven.Pokemon, error)
+}
+
+func NewPokemonesBajos(traerPokemones driven.DrivenTraerPokemonesBajosExecuter) PokemonesBajosExecuter {
+	return &PokemonesBajos{
+		pokemonesBajos: traerPokemones,
+	}
+}
+
+func (u *PokemonesBajos) TraerPokemonesBajos() ([]driven.Pokemon, error) {
 
 	var p []driven.Pokemon
 
-	pokemonesResultado, err := u.driven.DrivenTraerPokemonesBajos()
+	pokemonesResultado, err := u.pokemonesBajos.DrivenTraerPokemonesBajos()
 	if err != nil {
 		return []driven.Pokemon{}, err
 	}

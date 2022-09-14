@@ -6,12 +6,25 @@ import (
 	"net/http"
 )
 
-func (d *driven) DrivenTraerPokemonesBajos() ([]Pokemon, error) {
+type DrivenTraerPokemonesBajos struct {
+	TraerPokemones DrivenTraerPokemonesExecuter
+}
+
+type DrivenTraerPokemonesBajosExecuter interface {
+	DrivenTraerPokemonesBajos() ([]Pokemon, error)
+}
+
+func NewDrivenTraerPokemonesBajos(TraerPokemones DrivenTraerPokemonesExecuter) DrivenTraerPokemonesBajosExecuter {
+	return &DrivenTraerPokemonesBajos{
+		TraerPokemones: TraerPokemones,
+	}
+}
+func (d *DrivenTraerPokemonesBajos) DrivenTraerPokemonesBajos() ([]Pokemon, error) {
 
 	var respuesta Pokemon
 	var pokemonesResultado []Pokemon
 
-	pokemones, err := d.DrivenTraerPoemones()
+	pokemones, err := d.TraerPokemones.DrivenTraerPokemones()
 	if err != nil {
 		return []Pokemon{}, err
 	}

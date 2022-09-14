@@ -2,20 +2,35 @@ package usecases
 
 import "poo/driven"
 
-func (u *useCasesTraerPokemones) TraerPokemonesAltos() ([]driven.Pokemon, error) {
-	var p []driven.Pokemon
+type PokemonesAltos struct {
+	pokemonesBajos driven.DrivenTraerPokemonesBajosExecuter
+}
 
-	pokemonesResultado, err := u.driven.DrivenTraerPokemonesBajos()
+type PokemonesAltosExecuter interface {
+	TraerPokemonesAltos() ([]driven.Pokemon, error)
+}
+
+func NewUsecasesPokemonesAltos(PokemonesBajos driven.DrivenTraerPokemonesBajosExecuter) PokemonesAltosExecuter {
+	return &PokemonesAltos{
+		pokemonesBajos: PokemonesBajos,
+	}
+
+}
+
+func (p *PokemonesAltos) TraerPokemonesAltos() ([]driven.Pokemon, error) {
+	var dp []driven.Pokemon
+
+	pokemonesResultado, err := p.pokemonesBajos.DrivenTraerPokemonesBajos()
 	if err != nil {
 		return []driven.Pokemon{}, err
 	}
 
 	for i := 0; i < len(pokemonesResultado); i++ {
 		if pokemonesResultado[i].Height >= 15 {
-			p = append(p, pokemonesResultado[i])
+			dp = append(dp, pokemonesResultado[i])
 		}
 
 	}
 
-	return p, err
+	return dp, err
 }
